@@ -24,16 +24,25 @@ function sp(){
     var xScale = d3.scale.linear();
     var yScale = d3.scale.linear();
     var rScale = d3.scale.linear();
+
+    var xScaleName = "Household income";
+    var yScaleName = "Employment rate";
     
     d3.csv("data/OECD-better-life-index-hi.csv", function(error, data) {
         self.data = data;
         
         //define the domain of the scatter plot axes
         //...
-        
-        xScale.domain([0, d3.max(self.data, function(d) { return d["Household income"]; })]).range([0, width]);
-        yScale.domain([0, d3.max(self.data, function(d) { return d["Employment rate"]; })]).range([height, 0]);
-        rScale.domain([0, d3.max(self.data, function(d) { return d["Employment rate"]; })]).range([2, 5]);
+        var xMin = d3.min(self.data, function(d) { return d[xScaleName]; });
+        var xMax = d3.max(self.data, function(d) { return d[xScaleName]; });
+
+        var yMin = d3.min(self.data, function(d) { return d[yScaleName]; });
+        var yMax = d3.max(self.data, function(d) { return d[yScaleName]; });
+
+        xScale.domain([xMin, xMax]).range([0, width]);
+        yScale.domain([yMin, yMax]).range([height, 0]);
+
+        rScale.domain([0, d3.max(self.data, function(d) { return d[yScaleName]; })]).range([2, 5]);
 
         draw();
 
@@ -50,7 +59,7 @@ function sp(){
     var xAxis = d3.svg.axis()
         .scale(xScale)
         .orient("bottom");
-
+        
     var yAxis = d3.svg.axis()
         .scale(yScale)
         .orient("left");
@@ -66,7 +75,14 @@ function sp(){
             .append("text")
             .attr("class", "label")
             .attr("x", width)
-            .attr("y", -6);
+            .attr("y", -6)
+
+        svg.append("text")
+            .attr("class", "x label")
+            .attr("text-anchor", "end")
+            .attr("x", width)
+            .attr("y", height - 6)
+            .text(xScaleName);
             
         // Add y axis and title.
         svg.append("g")
@@ -76,7 +92,15 @@ function sp(){
             .attr("class", "label")
             .attr("transform", "rotate(-90)")
             .attr("y", 6)
-            .attr("dy", ".71em");
+            .attr("dy", ".71em")
+        
+        svg.append("text")
+            .attr("class", "y label")
+            .attr("text-anchor", "end")
+            .attr("y", 6)
+            .attr("dy", ".75em")
+            .attr("transform", "rotate(-90)")
+            .text(yScaleName);
             
         // Add the scatter dots.
         svg.selectAll(".dot")
