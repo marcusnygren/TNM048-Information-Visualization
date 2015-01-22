@@ -12,6 +12,10 @@ function map(){
 
     //initialize color scale
     //...
+    var colorScale = d3.scale.category20();
+        //.ordinal()
+        //.domain([1, 2, 3])
+        //.range(colorbrewer.RdBu[9]); //d3.scale.category20();
     
     //initialize tooltip
     //...
@@ -57,6 +61,14 @@ function map(){
             .attr("title", function(d) { return d.properties.name; })
             //country color
             //...
+            .style("fill", function(d, i) 
+                { return colorScale(d.color = function(n) 
+                    {
+                        console.log(countries[n].color + 1);
+                        return countries[n].color + 1; 
+                    })
+                }
+            )
             //tooltip
             .on("mousemove", function(d) {
                 //...
