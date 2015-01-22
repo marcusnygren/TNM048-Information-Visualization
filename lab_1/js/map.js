@@ -54,6 +54,7 @@ function map(){
 		
         //...
 
+
         country.enter().insert("path")
             .attr("class", "country")
             .attr("d", path)
@@ -61,14 +62,10 @@ function map(){
             .attr("title", function(d) { return d.properties.name; })
             //country color
             //...
-            .style("fill", function(d, i) 
-                { return colorScale(d.color = function(n) 
-                    {
-                        console.log(countries[n].color + 1);
-                        return countries[n].color + 1; 
-                    })
-                }
-            )
+            /*.style("fill",function() {
+                return "hsl(" + Math.random() * 360 + ",100%,50%)";
+            })*/
+            .style("fill",function(d,i){return colorScale(i);})
             //tooltip
             .on("mousemove", function(d) {
                 //...

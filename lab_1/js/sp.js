@@ -132,6 +132,9 @@ function sp(){
     //method for selecting the dot from other components
     this.selectDot = function(value){
         //...
+        console.log("Hej");
+        var g = svg.selectAll(".foreground") //välj g med klass foreground
+            .style("fill", "red");
     };
     
     //method for selecting features of other components
