@@ -40,19 +40,39 @@
 	        var clusterID = 0;
 	        var currentPointCluster = [];
 	        var clusterAverages = [];
-
+			var tempArray1 = [];
+			var tempArray2 = [];
 	        for(var i = 0; i < SIZE; i++){
 	        	var currentPoint = data[i];
 	        	var temp = 10;
+	        	tempArray1=convertTo1DArray(currentPoint);
+	        	console.log("Hej: ");
+	        	
+	        
+
+
+	        	var temp = Object.keys(currentPoint);
+	        	console.log(temp[1]);
+
 
 	        	for(var j = 0; j < k; j++){
 	        		currentK = kPoints[j];
-	        		minimumLength = Math.abs((currentPoint.A - currentK.A) + (currentPoint.B - currentK.B) + (currentPoint.C - currentK.C));
+	        		tempArray2=convertTo1DArray(currentK);
+	        		minimumLength = 0;
+	        		for(var m = 0; m < DIMENSIONS; m++){
+	        			//var indexOf = Object.keys(currentPoint)[m];
+	        			minimumLength += Math.pow(tempArray1[m] - tempArray2[m],2);
+	        			//minimumLength += tempArray1[m];
+	        		}
+	        		minimumLength = Math.sqrt(minimumLength);
+	        		console.log(minimumLength);
+	        		//minimumLength = Math.abs((currentPoint.A - currentK.A) + (currentPoint.B - currentK.B) + (currentPoint.C - currentK.C));
 	        		if(minimumLength < temp){
 	        			temp = minimumLength;
 	        			clusterID = j;
 	        		}
 	        	}
+	        	tempArray1 = [];
 
 	        	currentPointCluster.push(clusterID);
 	        }
@@ -119,5 +139,23 @@
 
 	    }
 	};
+
+	function convertTo1DArray(data){
+		var tempArray = [];
+		for(var value in data){
+	    	tempArray.push(parseFloat(data[value]));	        		        
+	    }
+	    return tempArray;
+	};
     
-    
+	function convertTo2DArray(data){
+		var tempArray1 = [];
+		for(var row in data){
+			var tempArray2 = [];
+			for(var column in data){
+	    		tempArray2.push(parseFloat(data[value]));	        	
+	    	}
+	    	tempArray1.push(tempArray2);	        	
+	    }
+	    return tempArray1;
+	};
