@@ -79,7 +79,7 @@ function pc(){
             .data(self.data)
             .enter().append("svg:path")
             .attr("d", path)
-            .style("stroke", function(d,i) { return clusterColors[kmeansRes[i]]; }); 
+            .style("stroke", function(d,i) { return     [kmeansRes[i]]; }); 
     
             //Assign the cluster colors
             //..
