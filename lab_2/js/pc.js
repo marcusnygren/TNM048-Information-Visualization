@@ -1,5 +1,9 @@
 function pc(){
 
+    var colorScale = d3.scale.category20();
+
+    var clusterColors;
+
     var self = this; // for internal d3 functions
 
     var pcDiv = $("#pc");
@@ -44,8 +48,13 @@ function pc(){
 
         var k = 2;
         var kmeansRes = kmeans(data,k);
+
+        console.log(kmeansRes);
         
         //initialize the cluster colors
+        clusterColors = { "0": "red", "1": "blue", "2": "green" };
+
+        console.log(clusterColors);
         //...
         
         //lookuptable: if this cluster, give this color
@@ -70,11 +79,13 @@ function pc(){
             .data(self.data)
             .enter().append("svg:path")
             .attr("d", path)
-            .style("stroke", function(d) { return "hsl(" + Math.random() * 360 + ",100%,50%)"; }); 
+            .style("stroke", function(d,i) { return clusterColors[kmeansRes[i]]; }); 
     
             //Assign the cluster colors
             //..
-    
+            /*.style("stroke", function(d) { 
+                return "hsl(" + Math.random() * 360 + ",100%,50%)"; 
+            }); */
 
         // Add a group element for each dimension.
         var g = svg.selectAll(".dimension")
