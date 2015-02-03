@@ -61,50 +61,75 @@
 	        		}
 	        	}
 	        	tempArray1 = [];
+	        	tempArray2 = [];
 
 	        	currentPointCluster.push(clusterID);
 	        }
 
-	        // Steo 3
+	        // Step 3
 	        var means = [];
 	        var counter;
 
 	        for(var i = 0; i < k; i++){
-	        	currentPoint = data[i];
-	        	tempArray1 = convertTo1DArray(currentPoint);
+	        	
 	        	for(var j = 0; j < DIMENSIONS; j++){
 	        		temp = 0;
 	        		counter = 0;
 	        		for(var m = 0; m < SIZE; m++){
+	        			currentPoint = data[m];
+	        			tempArray1 = convertTo1DArray(currentPoint);
+
 	        			if(currentPointCluster[m] == i){
 	        				temp += tempArray1[j];
 	        				counter++;
 	        			}
 	        		}
 	        		means.push(temp/counter);
+	        		console.log("kPoints");
+	        		
+	        		//console.log(means);
+
+	        		
+	        		//console.log(kPoints[i]);
+
+	        		//means = [];
 	        	}
+	        	kPoints[i] = means;
+	        	means = [];
 	        	tempArray1 = [];
+	        	console.log("Means: " + means);
 	        }
 
 	        // Step 4
 	        newClusterQuality = 0;
 
 	        for(var i = 0; i < k; i++){
-	        	for(var j = 0; j < SIZE; j++){
-	        		if(currentPointCluster[j] == i){
-	        			newClusterQuality += Math.pow(
-		        				Math.abs(
-		        					(data[j].A - kPoints[i].A) + 
-		        					(data[j].B - kPoints[i].B) + 
-		        					(data[j].C - kPoints[i].C)),
-	        				2);
+	        	currentK = kPoints[i];
+	        	tempArray2 = convertTo1DArray(currentK);
 
+	        	for(var j = 0; j < DIMENSIONS; j++){
+
+	        		for(var m = 0; m < SIZE; m++){
+	        			currentPoint = data[m];
+	        			tempArray1 = convertTo1DArray(currentPoint);
+	        			//console.log(tempArray1);
+
+	        			if(currentPointCluster[m] == i){
+	        				//console.log(tempArray2[j]);
+	        				//console.log(tempArray1[j]);
+	        				newClusterQuality += Math.pow(Math.abs(tempArray1[j] - tempArray2[j]),2);
+	        			}
 	        		}
 	        	}
+	        	tempArray1 = [];
+	        	tempArray2 = [];
 	        }
-	        
-	        return currentPointCluster;
+
+	        //console.log(newClusterQuality);
+	        //console.log(oldClusterQuality);
 	    }
+	        
+	    return currentPointCluster;
 	};
 
 	function convertTo1DArray(data){

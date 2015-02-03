@@ -28,7 +28,7 @@ function pc(){
         .attr("transform", "translate(" + margin[3] + "," + margin[0] + ")");
 
     
-    d3.csv("data/testData1_400x3_2-clusters.csv", function(data) {
+    d3.csv("data/testData2_400x3_2-clusters.csv", function(data) {
         // Extract the list of dimensions and create a scale for each.
         x.domain(dimensions = d3.keys(data[0]).filter(function(d) {
             return (y[d] = d3.scale.linear()
@@ -42,19 +42,13 @@ function pc(){
         }));
         
         self.data = data;
-        console.log(data);
-        //console.log("Längd: " + data.length);
-        //console.log("Data 1: " + data[1].A);
 
         var k = 2;
         var kmeansRes = kmeans(data,k);
-
-        console.log(kmeansRes);
         
         //initialize the cluster colors
         clusterColors = { "0": "red", "1": "blue", "2": "green" };
 
-        console.log(clusterColors);
         //...
         
         //lookuptable: if this cluster, give this color
@@ -79,7 +73,7 @@ function pc(){
             .data(self.data)
             .enter().append("svg:path")
             .attr("d", path)
-            .style("stroke", function(d,i) { return     [kmeansRes[i]]; }); 
+            .style("stroke", function(d,i) { return clusterColors[kmeansRes[i]]; }); 
     
             //Assign the cluster colors
             //..
