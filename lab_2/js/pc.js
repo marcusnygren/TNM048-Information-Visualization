@@ -38,12 +38,17 @@ function pc(){
         }));
         
         self.data = data;
-        
-        var k = 0;
+        console.log(data);
+        //console.log("Längd: " + data.length);
+        //console.log("Data 1: " + data[1].A);
+
+        var k = 2;
         var kmeansRes = kmeans(data,k);
         
         //initialize the cluster colors
         //...
+        
+        //lookuptable: if this cluster, give this color
         
         draw(kmeansRes);
     });
