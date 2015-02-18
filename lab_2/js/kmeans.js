@@ -8,31 +8,35 @@
     function kmeans(data, k) {
         
     	var newClusterQuality = 0;
-    	var oldClusterQuality = 1000;
+    	var oldClusterQuality = 10000000000000;
     	var isFirstRun = true;
 
     	while(newClusterQuality < oldClusterQuality) {
     		
-    		if(isFirstRun){
-    			isFirstRun = false;
-    		}else{
-    			oldClusterQuality = newClusterQuality;	
-    		}		
-
-	        // ...
-	        var randomLineID = 0;
-	        var kPoints = [];
+    		// ...
+	        
 	        var SIZE = data.length;
 	        var DIMENSIONS = Object.keys(data[0]).length;
 
-	        // Step 1: Randomly place K points into the space
-	        for(var i=0; i<k; i++) {
-	        	randomLineID = Math.floor(Math.random() * SIZE);
-				kPoints.push(data[randomLineID]);
-	        }
+    		if(isFirstRun)
+    		{
+    			// Step 1: Randomly place K points into the space
+    			var randomLineID = 0;
+	        	var kPoints = [];
 
-	        console.log("Centerpunkter:");
-	        console.log(kPoints);
+		        for(var i=0; i<k; i++) {
+		        	randomLineID = Math.floor(Math.random() * SIZE);
+					kPoints.push(data[randomLineID]);
+		        }
+    			isFirstRun = false;
+    		}
+    		else
+    		{
+    			oldClusterQuality = newClusterQuality;
+    		}  
+
+	        //console.log("Centerpunkter:");
+	        //console.log(kPoints);
 
 	        // Step 2:
 	        var currentK;
@@ -70,22 +74,28 @@
 	        var means = [];
 	        var counter;
 
-	        for(var i = 0; i < k; i++){
+	        for(var i = 0; i < k; i++) //k-punkterna loopas igenom
+	        { 
 	        	
-	        	for(var j = 0; j < DIMENSIONS; j++){
+	        	for(var j = 0; j < DIMENSIONS; j++) //antalet dimensioner loopas igenom
+	        	{ 
 	        		temp = 0;
 	        		counter = 0;
-	        		for(var m = 0; m < SIZE; m++){
+
+	        		for(var m = 0; m < SIZE; m++) //antalet värden per dimension gås igenom
+	        		{ 
 	        			currentPoint = data[m];
 	        			tempArray1 = convertTo1DArray(currentPoint);
 
-	        			if(currentPointCluster[m] == i){
+	        			if(currentPointCluster[m] == i)
+	        			{
+	        				//console.log(tempArray1[j]);
 	        				temp += tempArray1[j];
 	        				counter++;
 	        			}
 	        		}
 	        		means.push(temp/counter);
-	        		console.log("kPoints");
+	        		//console.log("kPoints");
 	        		
 	        		//console.log(means);
 
@@ -97,7 +107,7 @@
 	        	kPoints[i] = means;
 	        	means = [];
 	        	tempArray1 = [];
-	        	console.log("Means: " + means);
+	        	//console.log("Means: " + means);
 	        }
 
 	        // Step 4
@@ -117,7 +127,7 @@
 	        			if(currentPointCluster[m] == i){
 	        				//console.log(tempArray2[j]);
 	        				//console.log(tempArray1[j]);
-	        				newClusterQuality += Math.pow(Math.abs(tempArray1[j] - tempArray2[j]),2);
+	        				newClusterQuality += Math.pow(tempArray1[j] - tempArray2[j],2);
 	        			}
 	        		}
 	        	}
@@ -125,7 +135,7 @@
 	        	tempArray2 = [];
 	        }
 
-	        //console.log(newClusterQuality);
+	        //console.log(newClusterQuality); //varför slutar alltid newClusterQuality på samma värde?
 	        //console.log(oldClusterQuality);
 	    }
 	        

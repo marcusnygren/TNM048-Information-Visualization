@@ -28,7 +28,8 @@ function pc(){
         .attr("transform", "translate(" + margin[3] + "," + margin[0] + ")");
 
     
-    d3.csv("data/testData2_400x3_2-clusters.csv", function(data) {
+    //d3.csv("data/testData2_400x3_2-clusters.csv", function(data) {
+    d3.csv("data/testData2_5600x5_x-clusters.csv", function(data) {
         // Extract the list of dimensions and create a scale for each.
         x.domain(dimensions = d3.keys(data[0]).filter(function(d) {
             return (y[d] = d3.scale.linear()
@@ -43,11 +44,12 @@ function pc(){
         
         self.data = data;
 
-        var k = 2;
+        var k = 4;
+        //var k = 4; //4 är oftast bra
         var kmeansRes = kmeans(data,k);
         
         //initialize the cluster colors
-        clusterColors = { "0": "red", "1": "blue", "2": "green" };
+        clusterColors = { "0": "red", "1": "blue", "2": "green", "3": "gray", "4": "purple", "5": "pink", "6": "teal" };
 
         //...
         
